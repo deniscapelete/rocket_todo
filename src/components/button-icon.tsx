@@ -4,46 +4,46 @@ import Icon from "./icon";
 import { cva, type VariantProps } from "class-variance-authority";
 import Skeleton from "./skeleton";
 
-export const buttonIconVariants = cva(
-  "inline-flex items-center justify-center cursor-pointer transition group",
-  {
+export const buttonIconVariants = cva(`inline-flex items-center justify-center cursor-pointer transition group`
+  , {
     variants: {
       variant: {
-        primary: "bg-green-base hover:bg-green-dark",
-        secondary: "bg-gray-200 hover:bg-pink-base",
-        tertiary: "bg-transparent hover:bg-gray-200",
+        none: "",
+        primary: 'bg-green-base hover:bg-green-dark',
+        secondary: 'bg-gray-200 hover:bg-pink-base',
+        tertiary: 'bg-transparent hover:bg-gray-200'
       },
       size: {
-        sm: "w-6 h-6 p-1 rounded",
+        sm: 'w-6 h-6 p-1 rounded'
       },
       disabled: {
-        true: "opacity-50 pointer-events-none",
-      },
+        true: "opacity-50 pointer-events-none"
+      }
     },
     defaultVariants: {
-      variant: "primary",
-      size: "sm",
-      disabled: false,
-    },
-  }
-);
+      variant: 'primary',
+      size: 'sm',
+      disabled: false
+    }
+  });
 
-export const buttonIconIconVariants = cva("transition", {
+export const buttonIconIconVariants = cva("transation", {
   variants: {
     variant: {
-      primary: "fill-white",
-      secondary: "fill-pink-base group-hover:fill-white",
-      tertiary: "fill-gray-300 group-hover:fill-gray-400",
+      none: "",
+      primary: 'fill-white',
+      secondary: 'fill-pink-base group-hover:fill-white',
+      tertiary: "fill-gray-300 group-hover:fill-gray-400"
     },
     size: {
-      sm: "w-4 h-4",
-    },
+      sm: 'w-4 h-4'
+    }
   },
   defaultVariants: {
-    variant: "primary",
-    size: "sm",
-  },
-});
+    variant: 'primary',
+    size: 'sm',
+  }
+})
 
 interface ButtonIconProps
   extends VariantProps<typeof buttonIconVariants>, Omit<React.ComponentProps<"button">, "size" | "disabled"> {
@@ -60,21 +60,24 @@ export default function ButtonIcon({
   loading,
   ...props
 }: ButtonIconProps) {
+
   if (loading) {
-    return (
-      <Skeleton
-        rounded="sm"
-        className={buttonIconVariants({ variant, size, className })}
-      />
-    );
+    return <Skeleton
+      rounded="sm"
+      className={buttonIconVariants({ variant: 'none', size, className })}
+    />
   }
 
   return (
-    <button
-      className={buttonIconVariants({ variant, size, disabled, className })}
+    <button className={buttonIconVariants({
+      variant: 'none',
+      size,
+      disabled,
+      className,
+    })}
       {...props}
     >
       <Icon svg={icon} className={buttonIconIconVariants({ variant, size })} />
     </button>
-  );
+  )
 }
