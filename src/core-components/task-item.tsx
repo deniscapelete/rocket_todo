@@ -15,8 +15,8 @@ interface TaskItemProps {
   task: Task;
 }
 
-
 export default function TaskItem({ task }: TaskItemProps) {
+
   const [isEditing, setIsEditing] = React.useState(task?.state === TaskState.Creating);
 
   function handleEditTask() {
@@ -27,10 +27,23 @@ export default function TaskItem({ task }: TaskItemProps) {
     setIsEditing(false);
   }
 
+  const [taskTitle, setTaskTitle] = React.useState("")
+
+  function handleChangeTaskTitle(e: React.ChangeEvent<HTMLInputElement>) {
+    setTaskTitle(e.target.value || '');
+  }
+
+  function handleSaveTask(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    console.log({ id: task.id, title: taskTitle })
+    // chamada para a função de atualizar:
+    setIsEditing(false);
+  }
+
   return (
-    <Card size='md' className="flex items-center gap-4">
+    <Card size='md' >
       {!isEditing ?
-        (<>
+        (<div className="flex items-center gap-4">
           <InputCheckbox
             value={task?.concluded?.toString()}
             checked={task?.concluded}
@@ -46,16 +59,21 @@ export default function TaskItem({ task }: TaskItemProps) {
             <ButtonIcon icon={TrashIcon} variant={"tertiary"} />
             <ButtonIcon icon={Pencil} variant={"tertiary"} onClick={handleEditTask} />
           </div>
-        </>)
+        </div>)
         :
         (
-          <>
-            <InputText className="flex-1" />
+          <form onSubmit={handleSaveTask} className="flex items-center gap-4">
+            <InputText
+              className="flex-1"
+              onChange={handleChangeTaskTitle}
+              required
+              autoFocus
+            />
             <div className="flex gap-1">
               <ButtonIcon icon={XIcon} variant="secondary" onClick={handleExitEditTask} />
-              <ButtonIcon icon={CheckIcon} variant="primary" />
+              <ButtonIcon type="submit" icon={CheckIcon} variant="primary" />
             </div>
-          </>)
+          </form>)
       }
 
     </Card>
