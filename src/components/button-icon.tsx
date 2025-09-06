@@ -70,7 +70,7 @@ export default function ButtonIcon({
 
   return (
     <button className={buttonIconVariants({
-      variant: 'none',
+      variant,
       size,
       disabled,
       className,
