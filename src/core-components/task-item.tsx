@@ -19,13 +19,16 @@ interface TaskItemProps {
 export default function TaskItem({ task }: TaskItemProps) {
 
   const [isEditing, setIsEditing] = React.useState(task?.state === TaskState.Creating);
-  const { updateTasks, updateTaskStatus } = useTask()
+  const { updateTasks, updateTaskStatus, deleteTask } = useTask()
 
   function handleEditTask() {
     setIsEditing(true);
   }
 
   function handleExitEditTask() {
+    if (task.state === TaskState.Creating) {
+      deleteTask(task.id)
+    }
     setIsEditing(false);
   }
 
@@ -47,7 +50,10 @@ export default function TaskItem({ task }: TaskItemProps) {
   function handleChangeTaskStatus(e: React.ChangeEvent<HTMLInputElement>) {
     const checked = e.target.checked;
     updateTaskStatus(task.id, checked);
+  }
 
+  function handleClickDeleteTask() {
+    deleteTask(task.id)
   }
 
   return (
@@ -66,7 +72,7 @@ export default function TaskItem({ task }: TaskItemProps) {
           </Text>
 
           <div className="flex gap-1">
-            <ButtonIcon icon={TrashIcon} variant={"tertiary"} />
+            <ButtonIcon icon={TrashIcon} variant={"tertiary"} onClick={handleClickDeleteTask} />
             <ButtonIcon icon={Pencil} variant={"tertiary"} onClick={handleEditTask} />
           </div>
         </div>)

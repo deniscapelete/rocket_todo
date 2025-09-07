@@ -21,14 +21,20 @@ export default function useTask(){
   }
 
   function updateTaskStatus(id: string, concluded: boolean){
-setTasks(
-  tasks.map((task) => task.id === id?  {...task, concluded} : task)
-)
+    setTasks(
+      tasks.map((task) => task.id === id?  {...task, concluded} : task)
+    )
   }
+
+  function deleteTask(id:string){
+setTasks(tasks.filter((task) => task.id !== id));
+  }
+
 
   return {
     prepareTask,
     updateTasks,
-    updateTaskStatus
+    updateTaskStatus,
+    deleteTask
   }
 }
